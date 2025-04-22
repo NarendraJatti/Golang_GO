@@ -95,3 +95,49 @@ Use **fmt.Printf** when you want to use format specifiers like %v (value) and %T
 var grades [3] int = [3] int {10,20,30}
 or 
 grades := [3] int {10,20,30}
+
+
+:= → Declare + Assign
+func main() {
+	name := "Narendra" // declares 'name' and assigns value
+	age := 24           // declares 'age' and assigns value
+	fmt.Println(name, age)
+}
+
+
+= → Just Assign
+func main() {
+	name := "Narendra"
+	name = "Naren" // reassigns existing variable
+	fmt.Println(name)
+}
+
+
+... (ellipsis) in Go
+➤ Meaning: It has two main uses
+1️⃣ When passing variadic parameters
+func greet(names ...string) {
+	for _, name := range names {
+		fmt.Println("Hello", name)
+	}
+}
+
+func main() {
+	greet("Alice", "Bob", "Charlie")
+}
+Here, names ...string means you can pass any number of strings, like an array.
+
+2️⃣ When expanding a slice into arguments
+func sum(nums ...int) {
+	total := 0
+	for _, n := range nums {
+		total += n
+	}
+	fmt.Println("Total:", total)
+}
+
+func main() {
+	numbers := []int{1, 2, 3, 4}
+	sum(numbers...) // '...' expands the slice into individual arguments
+}
+
