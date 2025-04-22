@@ -1,0 +1,45 @@
+by google .
+g0 -complied
+go> interpreted,dynamically typed(python) + efficiency and safety of statically
+typed,complied(c++)
+- network,multi core computing,concurrency
+server side,backend
+compliles into single binary>>go build hello.go
+
+modularization
+============
+go mod init myproject
+
+go>>indentation does NOT matter,but indent to look good
+
+data types
+=======
+int ,int8 ,int16 etc
+float
+string ,"string"
+bool,true ,false
+
+
+static typed
+=====
+data types used incorrectly throws error,c++ ,java 
+better proerfomance,bugs can be caught by complier,better data integirty
+
+dynamically typed(weekly,loosely typed)
+=======
+complier does not enforce data types,python,javascript 
+faster to write code,less rigid
+
+variables
+=========
+statically types
+
+var s string = "hello"
+or 
+s:= "hello"
+
+var i int = 100
+
+
+
+go mod init myproject
