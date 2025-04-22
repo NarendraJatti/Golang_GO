@@ -1,3 +1,45 @@
+gofmt -w yourfile.go >>to format your code(for better readability)
+
+Compiling means:
+
+Translating your human-readable Go code (.go files) into a binary (machine code) that your computer can execute.
+This is done by the Go compiler (go build, go run uses it behind the scenes).
+Compiler responsibilities:
+Checks your code for syntax, type, and logical errors.
+
+Translates your code into machine-executable form (a binary).
+
+Performs optimizations for performance.
+
+Once compilation succeeds, the binary is passed to the runtime to execute
+
+Runtime refers to:
+
+The period when the compiled program is actually running (being executed by the CPU).
+
+Go’s runtime system handles:
+
+Goroutine scheduling
+
+Garbage collection (memory management)
+
+Stack growth
+
+Panic/recover behavior
+
+Maps, slices, channels
+Go panics on many runtime errors — you can recover using defer + recover().
+
+A panic in Go is when something goes wrong at runtime and the program immediately stops normal execution.
+
+What is recover()?
+recover() is a built-in function that lets you catch a panic and stop it from crashing the program.
+
+But — you can only use recover() inside a defer function.
+
+
+
+
 by google .
 g0 -complied
 go> interpreted,dynamically typed(python) + efficiency and safety of statically
@@ -43,3 +85,13 @@ var i int = 100
 
 
 go mod init myproject
+
+
+Use **fmt.Printf** when you want to use format specifiers like %v (value) and %T (type).
+
+**fmt.Println** just prints values with a space and newline, without interpreting format specifiers.
+
+
+var grades [3] int = [3] int {10,20,30}
+or 
+grades := [3] int {10,20,30}
