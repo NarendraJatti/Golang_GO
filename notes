@@ -141,3 +141,11 @@ func main() {
 	sum(numbers...) // '...' expands the slice into individual arguments
 }
 
+
+A higher-order function is a function that takes another function as an argument or returns a function.
+
+str := "Hello, World" // valid string
+char := 'A'           // valid rune (int32)
+Go: double quotes for strings, single quotes for characters/runes.
+
+Python: either works for strings.
