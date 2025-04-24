@@ -28,12 +28,10 @@ func main() {
 
 	}
 }
-
 func printMe(printavalue string) {
 	fmt.Println(printavalue)
 
 }
-
 func intDivison(numerator int ,denominator int) (int,int,error) {
 
 	var err error 

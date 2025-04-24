@@ -153,3 +153,38 @@ char := 'A'           // valid rune (int32)
 Go: double quotes for strings, single quotes for characters/runes.
 
 Python: either works for strings.
+
+
+How range works with a map in Go:
+In Go, range is used in a for loop to iterate over elements in various data structures like slices, arrays, strings, and maps.
+
+When you use range on a map, it gives you keys (by default), or both key and value if you ask for them.
+
+
+What is sync.WaitGroup?
+A WaitGroup is a synchronization primitive in Go that:
+
+Tracks goroutines that are running.
+
+Blocks the main program until all tracked goroutines finish.
+
+Uses a counter to know how many goroutines to wait for.
+Key Methods:
+Method	Purpose
+wg.Add(n)	Increments the counter by n (number of goroutines to wait for).
+wg.Done()	Decrements the counter by 1 (called when a goroutine finishes).
+wg.Wait()	Blocks until the counter reaches 0.
+
+Why defer is Important?
+Ensures wg.Done() is called even if the goroutine panics or returns early.
+
+Guarantees cleanup, similar to try-finally in other languages.
+
+Execution Flow (Fixed):
+wg.Add(2) → Counter = 2.
+
+printLine1() → defer wg.Done() → Counter = 1 when it exits.
+
+printLine2() → defer wg.Done() → Counter = 0 when it exits.
+
+wg.Wait() now unblocks because counter reached 0.
