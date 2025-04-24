@@ -2,6 +2,8 @@ https://www.youtube.com/watch?v=8uiZC0l4Ajw&list=PLmPL-f-MSjiJH6X5K0Li1VTZxkE3y4
 
 gofmt -w yourfile.go >>to format your code(for better readability)
 
+go mod init go_tutotrials
+
 Compiling means:
 
 Translating your human-readable Go code (.go files) into a binary (machine code) that your computer can execute.
