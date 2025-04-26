@@ -1,5 +1,7 @@
 https://www.youtube.com/watch?v=8uiZC0l4Ajw&list=PLmPL-f-MSjiJH6X5K0Li1VTZxkE3y4DCc&index=12
 
+
+https://pkg.go.dev/
 gofmt -w yourfile.go >>to format your code(for better readability)
 
 go mod init go_tutotrials
@@ -161,6 +163,9 @@ In Go, range is used in a for loop to iterate over elements in various data stru
 When you use range on a map, it gives you keys (by default), or both key and value if you ask for them.
 
 
+goroutines
+===============
+
 What is sync.WaitGroup?
 A WaitGroup is a synchronization primitive in Go that:
 
@@ -188,3 +193,142 @@ printLine1() → defer wg.Done() → Counter = 1 when it exits.
 printLine2() → defer wg.Done() → Counter = 0 when it exits.
 
 wg.Wait() now unblocks because counter reached 0.
+
+sync.WaitGroup Explained
+sync.WaitGroup is used to wait for a collection of goroutines to finish.
+
+Key Methods:
+wg.Add(int):
+
+Increments the WaitGroup counter by the given value
+
+Should be called before launching the goroutine
+
+The number depends on how many goroutines you're going to launch
+
+wg.Done():
+
+Decrements the WaitGroup counter by 1
+
+Typically called with defer at the start of the goroutine
+
+Signals that the goroutine has completed
+
+wg.Wait():
+
+Blocks until the WaitGroup counter is zero
+
+Called in the main goroutine to wait for others to finish
+
+
+What defer wg.Done() does:
+wg.Done(): This decrements the WaitGroup counter by 1, signaling that this goroutine has finished its work.
+
+defer: This schedules wg.Done() to be called just before the goroutine exits (i.e., when the function returns).
+
+Why use defer here?
+Using defer is a best practice for WaitGroup.Done() because:
+
+Guaranteed Execution: Even if the goroutine panics or has an early return (e.g., due to an error), defer ensures wg.Done() is called. Without defer, you might forget to call Done() in some code paths, causing the program to deadlock (since wg.Wait() would wait forever).
+
+Cleaner Code: It keeps the Done() call right at the start of the goroutine (as a defer), making it clear that this goroutine will signal completion when it exits.
+
+Yes, Goroutines can run in parallel if your Go program is running on a machine with multiple CPU cores (or vCPUs) and if you have properly configured your program to use them.
+
+GOMAXPROCS:
+
+Go uses an environment variable called GOMAXPROCS (default = number of CPU cores) to decide how many OS threads can execute goroutines simultaneously.
+
+If GOMAXPROCS=1, goroutines run concurrently but not in parallel (single-threaded).
+
+If GOMAXPROCS > 1 (e.g., GOMAXPROCS=8 on an 8-core machine), goroutines can run in parallel on multiple cores.
+
+Key Points:
+✅ By default, Go uses all available CPU cores (GOMAXPROCS = NumCPU).
+✅ If you have 4+ cores, goroutines can execute in parallel (not just concurrently).
+✅ You can manually set GOMAXPROCS (e.g., runtime.GOMAXPROCS(2)) to limit parallelism.
+✅ The Go scheduler efficiently distributes goroutines across threads and cores.
+
+How to Check Parallelism in Action:
+Run a CPU-bound task (e.g., calculating primes) with multiple goroutines.
+
+Monitor CPU usage (htop, top, or go tool trace) to see if multiple cores are utilized.
+
+Yes, goroutines run in parallel if multiple cores are available (default behavior).
+
+No extra configuration is needed (Go handles it automatically).
+
+For I/O-bound tasks, goroutines are efficient even on a single core (due to non-blocking I/O).
+
+For CPU-bound tasks, parallelism kicks in when GOMAXPROCS > 1.
+
+Go (Goroutines) – Parallel Execution (Multi-Core)
+Goroutines are lightweight threads managed by the Go runtime.
+
+If you have multiple CPU cores, Go's scheduler distributes goroutines across cores, enabling true parallelism.
+
+Default behavior: GOMAXPROCS = NumCPU (uses all available cores
+	// Runs in parallel on multiple cores (CPU-bound work)
+for i := 0; i < 8; i++ {
+    go compute() // Each goroutine can run on a separate core
+}
+
+Python has a Global Interpreter Lock (GIL), which prevents multiple threads from executing Python bytecode simultaneously in the same process. This affects parallelism:
+
+What is a Deadlock in Go?
+A deadlock occurs when all goroutines in your program are blocked, waiting for something to happen, but nothing can proceed. In your case, the program has only one goroutine (the main goroutine), and it's stuck trying to send a value into an unbuffered channel.
+
+Why Your Code Deadlocks
+go
+ch := make(chan int)  // Creates an unbuffered channel
+ch <- 5               // This blocks until someone receives from the channel
+fmt.Println(<-ch)     // This line never gets executed because the previous line blocks
+How to Fix It
+Solution 1: Use a Buffered Channel
+go
+ch := make(chan int, 1)  // Channel with buffer size 1
+ch <- 5                  // This won't block because there's space in buffer
+fmt.Println(<-ch)        // This receives the value
+Solution 2: Use Separate Goroutines for Send and Receive
+go
+ch := make(chan int)
+
+go func() {
+    ch <- 5  // Send in a separate goroutine
+}()
+
+fmt.Println(<-ch)  // Receive in main goroutine
+Solution 3: Send and Receive in the Right Order
+go
+ch := make(chan int)
+
+go func() {
+    fmt.Println(<-ch)  // Receive first
+}()
+
+ch <- 5  // Then send
+
+
+What is -race?
+The -race flag enables Go's race detector, a tool for finding race conditions in concurrent Go programs. When you run your code with go run -race or go test -race, the compiler instruments your code to detect potential data races during execution.
+
+# For running a program
+go run -race main.go
+
+# For testing
+go test -race ./...
+
+# For building
+go build -race
+
+Performance Impact
+The race detector:
+
+Increases memory usage by 5-10x
+
+Slows down execution by 2-20x
+
+Should only be used during development/testing, not in production
+
+$env:CGO_ENABLED = "1"
+PS C:\Users\NAREN JATTI\OneDrive\Documents\kodekloud\golang> go env CGO_ENABLED   
