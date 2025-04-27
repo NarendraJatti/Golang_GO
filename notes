@@ -398,3 +398,10 @@ Handle all edge cases
 Implement proper shutdown logic
 
 Channels encapsulate all this complexity in a clean abstraction
+
+[]int{2,3,4,5} → slice of ints.
+
+[4]int{2,3,4,5} → array of 4 ints.
+
+How to Check for Heap Allocations
+Use go build -gcflags="-m" to see escape analysis:
